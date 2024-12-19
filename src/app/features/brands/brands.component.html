@@ -1,0 +1,32 @@
+<mat-form-field>
+  <input matInput (input)="filterBrands($event)" placeholder="Search Brands">
+</mat-form-field>
+
+@if (loading$ | async) {
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+} @else {
+  <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
+    <mat-list>
+      @for (brand of filteredBrands$ | async; track brand.Make_ID) {
+        <mat-list-item (click)="selectBrand(brand.Make_ID)">
+          {{ brand.Make_Name }}
+        </mat-list-item>
+      }
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
+}
+
+<!-- <mat-form-field>
+    <input matInput (input)="filterMakes($event)"  placeholder="Search Brands">
+</mat-form-field>
+
+  <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
+    <mat-list>
+      @for (make of filteredMakes(); track make) {
+        <mat-list-item 
+          (click)="selectMake(make)">
+          {{ make }}
+        </mat-list-item>
+      }
+    </mat-list>
+  </cdk-virtual-scroll-viewport> -->

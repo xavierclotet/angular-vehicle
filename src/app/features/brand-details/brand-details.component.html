@@ -1,0 +1,29 @@
+<div class="brand-details">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Vehicle Types</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        @for (type of types$ | async; track type.VehicleTypeId) {
+          <mat-list-item>{{ type.VehicleTypeName }}</mat-list-item>
+          <mat-divider></mat-divider>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Available Models</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        @for (model of models$ | async; track model.Model_ID) {
+          <mat-list-item>{{ model.Model_Name }}</mat-list-item>
+          <mat-divider></mat-divider>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div> 
