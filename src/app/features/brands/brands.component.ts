@@ -6,9 +6,10 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Store } from '@ngrx/store';
-import { selectBrands, selectFilteredBrands, selectLoading } from '@app/store/brands/brands.selectors';
+import { selectBrands, selectFilteredBrands, selectLoading, selectSearchTerm } from '@app/store/brands/brands.selectors';
 import { BrandsActions } from '@app/store/brands/brands.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-brands',
@@ -17,18 +18,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule, 
     MatListModule, 
     ScrollingModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   templateUrl: './brands.component.html',
-  styleUrl: './brands.component.css'
+  styleUrl: './brands.component.scss'
 })
 export class BrandsComponent {
   private store = inject(Store);
   private router = inject(Router);
-
   brands$ = this.store.select(selectBrands);
   loading$ = this.store.select(selectLoading);
-
+  searchTerm$ = this.store.select(selectSearchTerm);
   filteredBrands$ = this.store.select(selectFilteredBrands);
 
   constructor() {

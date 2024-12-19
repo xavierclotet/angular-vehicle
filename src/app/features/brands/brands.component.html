@@ -1,5 +1,5 @@
 <mat-form-field>
-  <input matInput (input)="filterBrands($event)" placeholder="Search Brands">
+  <input matInput [ngModel]="searchTerm$ | async" (input)="filterBrands($event)" placeholder="Search Brands">
 </mat-form-field>
 
 @if (loading$ | async) {

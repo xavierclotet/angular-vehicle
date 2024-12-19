@@ -13,7 +13,7 @@ import { BrandsActions } from '@app/store/brands/brands.actions';
   selector: 'app-brand-details',
   imports: [CommonModule, MatCardModule, MatListModule, MatDividerModule],
   templateUrl: './brand-details.component.html',
-  styleUrl: './brand-details.component.css'
+  styleUrl: './brand-details.component.scss'
 })
 export class BrandDetailsComponent implements OnInit  {
   private route = inject(ActivatedRoute);
