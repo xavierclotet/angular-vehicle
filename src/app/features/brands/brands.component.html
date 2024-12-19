@@ -1,17 +1,19 @@
-<mat-form-field>
-  <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)"  placeholder="Search Brands">
-</mat-form-field>
+<div class="brands-container">
+  <mat-form-field class="search-field">
+    <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)"  placeholder="Search Brands">
+  </mat-form-field>
 
-@if (loading$ | async) {
-  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-} @else {
-  <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-    <mat-list>
-      @for (brand of filteredBrands$ | async; track brand.Make_ID) {
-        <mat-list-item (click)="selectBrand(brand.Make_ID)">
-          {{ brand.Make_Name }}
-        </mat-list-item>
-      }
-    </mat-list>
-  </cdk-virtual-scroll-viewport>
+  @if (loading$ | async) {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  } @else {
+    <cdk-virtual-scroll-viewport itemSize="50"  class="brands-viewport">
+      <mat-list>
+        @for (brand of filteredBrands$ | async; track brand.Make_ID) {
+          <mat-list-item (click)="selectBrand(brand.Make_ID)" class="brand-item">
+            {{ brand.Make_Name }}
+          </mat-list-item>
+        }
+      </mat-list>
+    </cdk-virtual-scroll-viewport>
 }
+</div>
