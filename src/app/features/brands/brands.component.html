@@ -1,5 +1,5 @@
 <mat-form-field>
-  <input matInput [ngModel]="searchTerm$ | async" (input)="filterBrands($event)" placeholder="Search Brands">
+  <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)"  placeholder="Search Brands">
 </mat-form-field>
 
 @if (loading$ | async) {
@@ -15,18 +15,3 @@
     </mat-list>
   </cdk-virtual-scroll-viewport>
 }
-
-<!-- <mat-form-field>
-    <input matInput (input)="filterMakes($event)"  placeholder="Search Brands">
-</mat-form-field>
-
-  <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-    <mat-list>
-      @for (make of filteredMakes(); track make) {
-        <mat-list-item 
-          (click)="selectMake(make)">
-          {{ make }}
-        </mat-list-item>
-      }
-    </mat-list>
-  </cdk-virtual-scroll-viewport> -->
