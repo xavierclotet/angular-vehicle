@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     .breadcrumb {
       background: transparent;
       height: 48px;
-      margin-bottom: 16px;
+      font-size: 1rem;
     }
     .active {
       background: rgba(0,0,0,.04);
@@ -36,11 +36,15 @@ import { MatIconModule } from '@angular/material/icon';
     }
     span {
       opacity: 0.7;
+      font-size: 1rem;
     }
   `]
 })
 export class BreadcrumbComponent {
+  private router = inject(Router);
+  private readonly BRAND_DETAILS_PATTERN = /\/brands\/\d+$/;
+
   isDetailsRoute(): boolean {
-    return window.location.pathname.includes('/brands/');
+    return this.BRAND_DETAILS_PATTERN.test(this.router.url);
   }
 }

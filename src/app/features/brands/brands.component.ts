@@ -10,7 +10,7 @@ import { selectBrands, selectFilteredBrands, selectLoading, selectSearchTerm } f
 import { BrandsActions } from '@app/store/brands/brands.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject, take } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -36,6 +36,19 @@ export class BrandsComponent {
   filteredBrands$ = this.store.select(selectFilteredBrands);
 
   constructor() {
+    this.loadBrands();
+    this.manageSearchInput();
+  }
+
+  brandChanged(term: string): void {
+    this.searchSubject.next(term);
+  }
+  
+  selectBrand(brand: number): void {
+    this.router.navigate(['/brands', brand])
+  }
+
+  private loadBrands(): void {
     // Solo cargar las marcas si no hay datos
     this.brands$.pipe(
       take(1)
@@ -44,21 +57,15 @@ export class BrandsComponent {
         this.store.dispatch(BrandsActions.loadBrands())
       }
     });
+  }
+
+  private manageSearchInput(): void {
     this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      takeUntilDestroyed()
-    ).subscribe(term => {
-      this.store.dispatch(BrandsActions.setSearchTerm({ term }));
-    });
-  }
-
-  brandChanged(term: string) {
-    this.searchSubject.next(term);
-  }
-  
-  selectBrand(brand: number) {
-    this.router.navigate(['/brands', brand])
+      takeUntilDestroyed(),
+      tap(term => this.store.dispatch(BrandsActions.setSearchTerm({ term })))
+    ).subscribe();
   }
 
 }
