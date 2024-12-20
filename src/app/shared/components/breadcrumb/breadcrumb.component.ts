@@ -25,7 +25,9 @@ import { MatIconModule } from '@angular/material/icon';
     .breadcrumb {
       background: transparent;
       height: 48px;
-      font-size: 1rem;
+      a {
+        font-size: 1.2rem;
+      }
     }
     .active {
       background: rgba(0,0,0,.04);
@@ -36,7 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
     }
     span {
       opacity: 0.7;
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
   `]
 })

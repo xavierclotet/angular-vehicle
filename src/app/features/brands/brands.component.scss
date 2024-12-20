@@ -2,11 +2,14 @@
   padding: 16px;
   max-width: 800px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
 .search-field {
   width: 100%;
-  margin-bottom: 16px;
 
   mat-icon {
     color: #666;
@@ -15,7 +18,8 @@
 }
 
 .brands-viewport {
-  height: calc(100vh - 180px);
+ 
+  min-height: calc(50vh);
   width: 100%;
   border-radius: 8px;
   background-color: white;
@@ -28,6 +32,7 @@
 
   &:hover {
     background-color: #f5f5f5;
+    cursor: pointer;
   }
 
   mat-icon {
@@ -35,21 +40,8 @@
   }
 }
 
-// Optional: Add a scrollbar styling
-.brands-viewport::-webkit-scrollbar {
-  width: 12px;
+mat-progress-spinner {
+  margin: 0 auto;
+  place-self: center;
 }
 
-.brands-viewport::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.brands-viewport::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.brands-viewport::-webkit-scrollbar-thumb:hover {
-  background: #666;
-}

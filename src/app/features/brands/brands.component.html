@@ -4,7 +4,7 @@
   </mat-form-field>
 
   @if (loading$ | async) {
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner>
   } @else {
     <cdk-virtual-scroll-viewport itemSize="50"  class="brands-viewport">
       <mat-list>

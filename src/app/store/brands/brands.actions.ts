@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
-import { Brand, BrandsResponse, ModelsResponse, VehicleTypesResponse } from '@models/brands.model'
+import { Brand, ModelsResponse, VehicleTypesResponse } from '@models/brands.model'
 
 export const BrandsActions = createActionGroup({
   source: 'Brands',
@@ -9,7 +9,9 @@ export const BrandsActions = createActionGroup({
     'Load Brands Failure': props<{ error: string }>(),
     'Load Brand Details': props<{ brand: number }>(),
     'Load Brand Models Success': props<{ models: ModelsResponse }>(),
+    'Load Brand Models Failure': props<{ error: string }>(),
     'Load Brand Types Success': props<{ types: VehicleTypesResponse }>(),
+    'Load Brand Types Failure':props<{ error: string }>(),
     'Set Search Term': props<{ term: string }>(),
   },
 })

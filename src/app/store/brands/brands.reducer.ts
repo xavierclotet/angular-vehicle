@@ -7,7 +7,7 @@ export interface BrandsState {
   selectedBrandModels: ModelsResponse | null;
   selectedBrandTypes: VehicleTypesResponse | null;
   loading: boolean;
-  error: string | null;
+  error: string;
   searchTerm: string;
 }
 
@@ -16,17 +16,20 @@ const initialState: BrandsState = {
   selectedBrandModels: null,
   selectedBrandTypes: null,
   loading: false,
-  error: null,
+  error: '',
   searchTerm: ''
 }
 
 export const brandsReducer = createReducer(
   initialState,
   on(BrandsActions.loadBrands, (state) => ({ ...state, loading: true })),
+  on(BrandsActions.loadBrandDetails, (state) => ({ ...state, loading: true })),
   on(BrandsActions.loadBrandsSuccess, (state, { brands }) => ({ ...state, brands, loading: false })),
   on(BrandsActions.loadBrandsFailure, (state, { error }) => ({ ...state, error, loading: false })),
-  on(BrandsActions.loadBrandModelsSuccess, (state, { models }) => ({ ...state, selectedBrandModels: models })),
-  on(BrandsActions.loadBrandTypesSuccess, (state, { types }) => ({ ...state, selectedBrandTypes: types })),
+  on(BrandsActions.loadBrandModelsSuccess, (state, { models }) => ({ ...state, selectedBrandModels: models, loading: false })),
+  on(BrandsActions.loadBrandTypesSuccess, (state, { types }) => ({ ...state, selectedBrandTypes: types, loading: false })),
+  on(BrandsActions.loadBrandModelsFailure, (state, { error }) => ({ ...state, error, loading: false })),
+  on(BrandsActions.loadBrandTypesFailure, (state, { error }) => ({ ...state, error, loading: false })),
   on(BrandsActions.setSearchTerm, (state, { term }) => ({
     ...state,
     searchTerm: term,

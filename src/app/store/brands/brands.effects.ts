@@ -31,8 +31,10 @@ export const loadBrandDetails = createEffect(
                   BrandsActions.loadBrandModelsSuccess({ models }),
                   BrandsActions.loadBrandTypesSuccess({ types }),
                 ]),
+                catchError((error) => of(BrandsActions.loadBrandModelsFailure({ error: error.message }))),
               ),
             ),
+            catchError((error) => of(BrandsActions.loadBrandTypesFailure({ error: error.message }))),
           ),
         ),
       )
