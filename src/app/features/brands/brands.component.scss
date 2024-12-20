@@ -45,3 +45,14 @@ mat-progress-spinner {
   place-self: center;
 }
 
+.error-card {
+  mat-card-header {
+    background-color: #ffebee; 
+  }
+
+  mat-error {
+    color: #d32f2f; 
+    font-size: 16px;
+    padding: 16px;
+  }
+}

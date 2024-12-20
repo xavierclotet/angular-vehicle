@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
@@ -16,19 +16,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './brand-details.component.html',
   styleUrl: './brand-details.component.scss'
 })
-export class BrandDetailsComponent implements OnInit  {
-  private route = inject(ActivatedRoute);
+export class BrandDetailsComponent implements OnInit {
+  protected brandId = input.required<number>();
   private store = inject(Store);
-  // TODO: use signal input for brandId?
+  
   types$ = this.store.select(selectBrandTypesResults);
   models$ = this.store.select(selectBrandModelsResults);
   loading$ = this.store.select(selectLoading);
   error$ = this.store.select(selectError);
 
-  ngOnInit() {
-    const brandId = Number(this.route.snapshot.paramMap.get('brandId'));
-    if (brandId) {
-      this.store.dispatch(BrandsActions.loadBrandDetails({ brand: brandId }));
-    }
+  ngOnInit(): void {
+    this.store.dispatch(BrandsActions.loadBrandDetails({ brand: this.brandId() }));
   }
+  
 }

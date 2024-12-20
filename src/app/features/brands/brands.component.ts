@@ -6,12 +6,14 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Store } from '@ngrx/store';
-import { selectBrands, selectFilteredBrands, selectLoading, selectSearchTerm } from '@app/store/brands/brands.selectors';
+import { selectBrands, selectError, selectFilteredBrands, selectLoading, selectSearchTerm } from '@app/store/brands/brands.selectors';
 import { BrandsActions } from '@app/store/brands/brands.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-brands',
@@ -21,7 +23,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatListModule, 
     ScrollingModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatCardModule
   ],
   templateUrl: './brands.component.html',
   styleUrl: './brands.component.scss'
@@ -32,6 +36,7 @@ export class BrandsComponent {
   private searchSubject = new Subject<string>();
   brands$ = this.store.select(selectBrands);
   loading$ = this.store.select(selectLoading);
+  error$ = this.store.select(selectError);
   searchTerm$ = this.store.select(selectSearchTerm);
   filteredBrands$ = this.store.select(selectFilteredBrands);
 

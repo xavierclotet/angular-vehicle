@@ -1,10 +1,22 @@
 <div class="brands-container">
+  @let error = error$ | async;
+  @let loading = loading$ | async;
+
   <mat-form-field class="search-field">
     <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)"  placeholder="Search Brands">
   </mat-form-field>
 
-  @if (loading$ | async) {
+  @if (loading) {
     <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner>
+  } @else if (error) {
+    <mat-card class="error-card">
+      <mat-card-header>
+        <mat-card-title>Error</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-error>{{ error }}</mat-error>
+      </mat-card-content>
+    </mat-card>
   } @else {
     <cdk-virtual-scroll-viewport itemSize="50"  class="brands-viewport">
       <mat-list>
