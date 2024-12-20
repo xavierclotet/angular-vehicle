@@ -1,7 +1,6 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectBrandModelsResults, selectBrandTypesResults, selectError, selectLoading, selectSelectedBrandModels, selectSelectedBrandTypes } from '@app/store/brands/brands.selectors';
 import { MatListModule } from '@angular/material/list';
