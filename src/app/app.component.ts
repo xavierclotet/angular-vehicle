@@ -6,8 +6,10 @@ import { BreadcrumbComponent } from './shared';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, BreadcrumbComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `
+  <app-breadcrumb></app-breadcrumb>
+  <router-outlet />
+  `,
 })
 export class AppComponent {
   title = 'angular-vehicle';

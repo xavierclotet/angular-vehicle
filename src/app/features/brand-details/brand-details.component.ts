@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './brand-details.component.scss'
 })
 export class BrandDetailsComponent implements OnInit {
-  protected brandId = input.required<number>();
+  brandId = input.required<number>();
   private store = inject(Store);
   
   types$ = this.store.select(selectBrandTypesResults);

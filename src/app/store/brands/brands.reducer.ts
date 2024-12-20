@@ -11,7 +11,7 @@ export interface BrandsState {
   searchTerm: string;
 }
 
-const initialState: BrandsState = {
+export const initialState: BrandsState = {
   brands: [],
   selectedBrandModels: null,
   selectedBrandTypes: null,

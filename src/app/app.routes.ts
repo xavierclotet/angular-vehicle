@@ -11,10 +11,10 @@ export const routes: Routes = [
         path: 'brands', 
         title: 'Vehicle Brands',
         component: BrandsComponent
-      },
-      { 
-        path: 'brands/:brandId', 
-        title: 'Brand Details',
-        component: BrandDetailsComponent
-      } 
+    },
+    { 
+      path: 'brands/:brandId', 
+      title: 'Brand Details',
+      component: BrandDetailsComponent
+    } 
 ];

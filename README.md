@@ -1,4 +1,4 @@
-# AngularVehicle
+# FRONTEND TECH TEST
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
 
@@ -11,7 +11,7 @@ npm install
 npm run start
 ```
 
-## FRONTEND TECH TEST
+## To do
 
 Develop a SPA in Angular that shows vehicle information using this API: https://vpic.nhtsa.dot.gov/api
 When starting the application, the brands available will be displayed using virtual scroll, having a search engine available to filter the information.

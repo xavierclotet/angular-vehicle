@@ -9,14 +9,14 @@ export interface Brand {
     Make_Name: string;
 }
   
-interface VehicleType {
+export interface VehicleType {
     MakeId: number;
     MakeName: string;
     VehicleTypeId: number;
     VehicleTypeName: string;
 }
   
-interface Model {
+export interface Model {
     Make_ID: number;
     Make_Name: string;
     Model_ID: number;
