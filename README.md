@@ -18,8 +18,8 @@ When starting the application, the brands available will be displayed using virt
 
 By selecting a brand we will access another route with information about that brand:
 
-• Types of vehicles
-• Models available
+- Types of vehicles
+- Models available
 
 Techs used:
 - Angular 19
@@ -34,6 +34,7 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 npm run test
 ```
 
+with coverage:
 ```bash
 npm run test:coverage
 ```
