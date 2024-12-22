@@ -3,12 +3,15 @@
   @let loading = loading$ | async;
 
   <mat-form-field class="search-field">
-    <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)"  placeholder="Search Brands">
+    <input matInput [ngModel]="searchTerm$ | async" (ngModelChange)="brandChanged($event)" placeholder="Search Brands">
   </mat-form-field>
 
   @if (loading) {
+
     <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner>
+  
   } @else if (error) {
+
     <mat-card class="error-card">
       <mat-card-header>
         <mat-card-title>Error</mat-card-title>
@@ -17,15 +20,18 @@
         <mat-error>{{ error }}</mat-error>
       </mat-card-content>
     </mat-card>
+
   } @else {
-    <cdk-virtual-scroll-viewport itemSize="50"  class="brands-viewport">
+
+    <cdk-virtual-scroll-viewport #viewport itemSize="50" class="brands-viewport" (scroll)="onScroll()">
       <mat-list>
-        @for (brand of filteredBrands$ | async; track brand.Make_ID) {
+        @for (brand of visibleItems(); track brand.Make_ID) {
           <mat-list-item (click)="selectBrand(brand.Make_ID)" class="brand-item">
             {{ brand.Make_Name }}
           </mat-list-item>
         }
       </mat-list>
     </cdk-virtual-scroll-viewport>
-}
+
+  }
 </div>
