@@ -31,6 +31,10 @@ Techs used:
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
 ```bash
-ng test
+npm run test
+```
+
+```bash
+npm run test:coverage
 ```
 
