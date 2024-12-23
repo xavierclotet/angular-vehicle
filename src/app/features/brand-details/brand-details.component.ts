@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-brand-details',
   imports: [CommonModule, MatCardModule, MatListModule, MatDividerModule, MatProgressSpinnerModule, MatFormFieldModule],
   templateUrl: './brand-details.component.html',
-  styleUrl: './brand-details.component.scss'
+  styleUrl: './brand-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrandDetailsComponent implements OnInit {
   brandId = input.required<number>();
