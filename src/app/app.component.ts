@@ -12,5 +12,4 @@ import { BreadcrumbComponent } from './shared';
   `,
 })
 export class AppComponent {
-  title = 'angular-vehicle';
 }

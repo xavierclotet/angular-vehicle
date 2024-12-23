@@ -26,4 +26,4 @@ export const routes: Routes = [
         redirectTo: '/brands',
         pathMatch: 'full',
     },
-  ]
+  ];
