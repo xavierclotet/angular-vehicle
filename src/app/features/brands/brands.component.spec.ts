@@ -10,6 +10,8 @@ import { selectBrands, selectError, selectFilteredBrands, selectLoading, selectS
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Action } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
+import { signal, viewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 describe('BrandsComponent', () => {
   let component: BrandsComponent;
@@ -179,4 +181,90 @@ describe('BrandsComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['/brands', mockBrands[0].Make_ID]);
     });
   });
+
+  describe('Virtual Scrolling', () => {
+    beforeEach(() => {
+      const largeMockBrands: Brand[] = Array.from({ length: 150 }, (_, i) => ({
+        Make_ID: i + 1,
+        Make_Name: `Brand ${i + 1}`
+      }));
+      store.overrideSelector(selectFilteredBrands, largeMockBrands);
+      store.refreshState();
+      fixture.detectChanges();
+    })
+
+    it('should initialize with PAGE_SIZE items', () => {
+      expect(component.visibleItems().length).toBe(100);
+    })
+
+    it('should load more items when scrolling near bottom', fakeAsync(() => {
+      const mockViewport = {
+        elementRef: {
+          nativeElement: {
+            scrollTop: 950,
+            clientHeight: 50,
+            scrollHeight: 1000
+          }
+        }
+      };
+      component.viewport = signal(mockViewport as CdkVirtualScrollViewport);
+     
+      component.onScroll();
+      tick();
+      
+      expect(component.visibleItems().length).toBeGreaterThan(100);
+    }))
+  });
+
+  describe('Search Functionality', () => {
+    it('should reset scroll position when search term changes', fakeAsync(() => {
+      const mockViewport = {
+        scrollToIndex: jasmine.createSpy('scrollToIndex'),
+      }
+      
+      component.viewport = signal(mockViewport as any);
+      
+      component.brandChanged('Toyota');
+      tick(300);
+      
+      expect(mockViewport.scrollToIndex).toHaveBeenCalledWith(0);
+    }))
+
+    it('should debounce search input by 300ms', fakeAsync(() => {
+      const dispatchSpy = spyOn(store, 'dispatch');
+      
+      component.brandChanged('T');
+      component.brandChanged('To');
+      component.brandChanged('Toy');
+      tick(200)
+      
+      expect(dispatchSpy).not.toHaveBeenCalled();
+      
+      tick(100);
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(BrandsActions.setSearchTerm({ term: 'Toy' }));
+    }))
+  })
+
+  describe('Loading and Error States', () => {
+    it('should show loading spinner when loading', () => {
+      store.overrideSelector(selectLoading, true);
+      store.refreshState();
+      fixture.detectChanges();
+      
+      const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'));
+      expect(spinner).toBeTruthy();
+    })
+
+    it('should show error message when error occurs', () => {
+      const errorMessage = 'Failed to load brands';
+      store.overrideSelector(selectError, errorMessage);
+      store.refreshState();
+      fixture.detectChanges();
+      
+      const errorElement = fixture.debugElement.query(By.css('.error-card'));
+      expect(errorElement.nativeElement.textContent).toContain(errorMessage);
+    })
+  });
+
 });

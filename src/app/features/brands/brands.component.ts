@@ -24,7 +24,7 @@ const PAGE_SIZE = 100;
   styleUrl: './brands.component.scss',
 })
 export class BrandsComponent {
-  readonly viewport = viewChild.required(CdkVirtualScrollViewport);
+  viewport = viewChild.required(CdkVirtualScrollViewport);
   visibleItems = signal<Brand[]>([]);
   private store = inject(Store);
   private router = inject(Router);
