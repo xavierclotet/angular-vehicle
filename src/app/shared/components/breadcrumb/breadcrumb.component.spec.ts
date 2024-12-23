@@ -1,71 +1,93 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { BreadcrumbComponent } from './breadcrumb.component';
-import { provideRouter, Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { ActivatedRoute, Router, provideRouter } from '@angular/router';
 import { Component } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  template: ''
+  template: '',
+  standalone: true
 })
 class MockComponent {}
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
   let fixture: ComponentFixture<BreadcrumbComponent>;
-  let router: jasmine.SpyObj<Router>;
+  let router: Router;
+  let mockRoute: any;
+
+  const routes = [
+    { 
+      path: 'brands',
+      component: MockComponent
+    },
+    { 
+      path: 'brands/:brandId',
+      component: MockComponent
+    }
+  ];
 
   beforeEach(async () => {
-    router = jasmine.createSpyObj('Router', [], {
-      url: '/brands/123'
-    });
+    mockRoute = {
+      snapshot: { title: 'Vehicle Brands' },
+      firstChild: null
+    };
 
     await TestBed.configureTestingModule({
       imports: [BreadcrumbComponent],
       providers: [
-        provideRouter([
-          { path: 'brands', component: MockComponent },
-          { path: 'brands/:brandId', component: MockComponent }
-        ])
+        provideRouter(routes),
+        { provide: ActivatedRoute, useValue: mockRoute }
       ]
     }).compileComponents();
 
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
-     
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a home link that points to brands', () => {
-    const homeLink = fixture.debugElement.query(By.css('a[routerLink="/brands"]'));
-    expect(homeLink).toBeTruthy();
-    expect(homeLink.nativeElement.textContent).toContain('Brands');
-  });
+  it('should show back button only on brand details page', fakeAsync(async () => {
+    // On brands page
+    await router.navigate(['/brands']);
+    tick();
+    fixture.detectChanges();
+    let backButton = fixture.debugElement.query(By.css('button'));
+    expect(backButton).toBeFalsy();
 
-  describe('isDetailsRoute', () => {
-    it('is true when route is /brands/:id', async () => {
-      const harness = await RouterTestingHarness.create();
-      await harness.navigateByUrl('/brands/123');
-      harness.detectChanges();
-      fixture.detectChanges();
-      const expectedValue = component.isDetailsRoute();
-      expect(expectedValue).toBeTrue();
-    });
+    // On brand details page
+    await router.navigate(['/brands/1']);
+    tick();
+    fixture.detectChanges();
+    backButton = fixture.debugElement.query(By.css('button'));
+    expect(backButton).toBeTruthy();
+  }));
 
-    it('is false when route is /brands', async () => {
-      const harness = await RouterTestingHarness.create();
-      await harness.navigateByUrl('/brands');
-      harness.detectChanges();
-      fixture.detectChanges();
-      const expectedValue = component.isDetailsRoute();
-      expect(expectedValue).toBeFalsy();
-    });
-  }); 
-  
+  it('should navigate to brands when back button is clicked', fakeAsync(async () => {
+    await router.navigate(['/brands/1']);
+    tick();
+    fixture.detectChanges();
+    
+    const backButton = fixture.debugElement.query(By.css('button'));
+    backButton.triggerEventHandler('click', null);
+    tick();
+    
+    expect(router.url).toBe('/brands');
+  }));
 
- 
+  it('should display correct title based on route', fakeAsync(async () => {
+    // Test brands page title
+    await router.navigate(['/brands']);
+    mockRoute.snapshot.title = 'Vehicle Brands';
+    mockRoute.firstChild = null;
+    tick();
+    fixture.detectChanges();
+    let titleElement = fixture.debugElement.query(By.css('span'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('Vehicle Brands');
+
+  }));
 });
